@@ -1,0 +1,54 @@
+package ch04;
+
+
+
+/*
+ Write a “universal” toString method that uses reflection to yield a string
+ with all instance variables of an object. 
+ Extra credit if you can handle cyclic references.
+ */
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import ch04.MotherObject;
+import java.util.*
+
+public class SomeObject extends MotherObject{
+    public someString;
+    private someInts;
+
+    public SomeObject(String someString, int[] someInts) {
+	this.someString = someString;
+	this.someInts = someInts;
+
+
+	public static String toString()   {
+	    Class cl = this.getClass;
+	    // get fields declared in the class itsself
+	    List<Field> fields = Arrays.asList(this.getDeclaredFields());
+	    Fields[] publicFields = cl.getFields();
+	    // add also inherited public fields
+	    for (Field field: publicFields) {
+		if (!fields.contains(field)) {
+		    fields.add(field);
+		}
+	    for (Field field : fields){
+		field.setAccessible(true);
+		System.out.println(field.toString());
+	    }
+	    
+	    
+	    
+		
+	    }
+
+		    
+	    }
+	    
+	    
+	}
+    
+    }
+    
+
+}
