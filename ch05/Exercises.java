@@ -6,6 +6,9 @@ import java.util.*;
 import ch05.FloatReader;
 import ch05.ScanWrite;
 import ch05.RewriteFinally;
+import ch05.CloseableReentrantLock;
+import ch05.StackFactorial;
+import ch05.MyException;
 
 public class Exercises {
     public static void main(String... args){
@@ -150,9 +153,89 @@ of the inputs are not floating-point numbers.*/;
 	    }
 	}
 	*/
-	
-    }
+	System.out.println("\n 5.6 Rewrite finally /n");
+	RewriteFinally.run(filename);
 
+	/*For this exercise, you’ll need to read through the source code of the
+	  java.util.Scanner class. If input fails when using a Scanner,
+	  the Scanner class catches the input exception and closes the resource
+	  from which it consumes input. What happens if closing the resource
+	  throws an exception? How does this implementation interact with the
+	  handling of suppressed exceptions in the try-with-resources statement?
+	*/
+	/*
+	  "It closes the resource"; It just sets sourceClosed to true;
+	  close calls Closeable close and sets close to true; 
+	  it catches closed Execptions, so they wont show up as suppressed
+	 */
+
+	/*
+	  8. Design a helper method so that one can use a ReentrantLock in a
+	  try-with-resources statement. Call lock and return an AutoCloseable
+	  whose close method calls unlock and throws no exceptions.
+	 */
+
+	System.out.println("\n 5.8 ReentrantLock Closeable \n");
+	
+	try (CloseableReentrantLock l = new CloseableReentrantLock();){
+	    System.out.println("in the try");
+	}
+	System.out.println("out the try");
+    
+    /*9. The methods of the Scanner and PrintWriter classes do not throw
+      checked exceptions to make them easier to use for beginning programmers.
+      How do you find out whether errors occurred during reading or writing?
+      Note that the constructors can throw checked exceptions. Why does that
+      defeat the goal of making the classes easier to use for beginners?*/
+
+    /* They throw Runtime Exceptions; If an error occured they will throw
+       that exception, the i know. I can test for specific errors before
+       liek hasNextInt() if i want to have an int,
+       also i can catch exceptions and handle them;
+       If u have to dealt with exception throwing and catching anyway
+       in the constructor you have to learn this too.
+    */
+
+    /*10 Write a recursive factorial method in which you print all stack frames
+      before you return the value. Construct (but don’t throw) an exception
+      object of any kind and get its stack trace, as described in Section 
+      5.1.8, “The Stack Trace,” on p. 184.
+    */
+
+	System.out.println("\n 5.10a Factorial with stackTrace \n");
+	
+	StackFactorial fun = new StackFactorial();
+	System.out.println(fun.applyAsInt(5));
+
+	System.out.println("\n 5.10bMy Exception with StackTrace \n");
+	Exception ex  = new MyException("this is an error");
+	StackTraceElement[] frame = ex.getStackTrace();
+	System.out.println(Arrays.toString(frame));
+
+	/*11. Compare the use of Objects.requireNonNull(obj)
+	  and assert obj != null. Give a compelling use for each.*/
+
+	/*assert is for testing, 
+	  requiring nonnull is for contract enforcement.
+	  Lets say assert: you have written several classes, 
+	  that have a common entry point in a program and
+	  wamt to make sure that some mehtod of them really 
+	  returns something for every class;
+	  require non-null:
+	  You have not written these classes but get them delivered
+	  from outside. Your program must make sure that these classes
+	  really deliver.
+	*/
+
+	/*12. Write a method int min(int[] values) that, just before returning 
+	  the smallest value, asserts that it is indeed ≤ all values in the
+	  array. Use a private helper method or, if you already peeked into
+	  Chapter 8, Stream.allMatch. Call the method repeatedly on a large
+	  array and measure the runtime with assertions enabled,
+	  disabled, and removed.
+	  Too much work, i wont work with assertions as testing tool;
+	*/
+    }
     
     
 }
