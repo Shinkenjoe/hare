@@ -4,6 +4,8 @@ package ch05;
 import java.io.*;
 import java.util.*;
 import ch05.FloatReader;
+import ch05.ScanWrite;
+import ch05.RewriteFinally;
 
 public class Exercises {
     public static void main(String... args){
@@ -104,23 +106,54 @@ of the inputs are not floating-point numbers.*/;
 	  • out.close() throws an exception.
 	  • in.close() throws an exception.
 	*/
-	
-	ArrayList<String> lines = ...;
-	try (PrintWriter out = new PrintWriter(“output.txt”)) {
-	    for (String line : lines) {
-		out.println(line.toLowerCase());
-	    }
-	}
+
+	/*
 
 	try (Scanner in = new Scanner(Paths.get(“/usr/share/dict/words”));
 	     PrintWriter out = new PrintWriter(“output.txt”)) {
 	    while (in.hasNext())
 		out.println(in.next().toLowerCase());
 	}
+	*/
+	String base = "/home/shinken/comp/java/core/impatient/done/ch05/";
+	filename = base  +  "someLines.txt";
+	String outfile = base + "someSmallLines.txt";
+	try {
+	    System.out.println("Trying ScanWrite");
+	    ScanWrite.smallit(filename, outfile);
+	} catch (IOException exc ) {
+	    System.out.println("Something.");
+	}
+	try {
+	    System.out.println("Trying ScanWrite with wrong outFile");
+	    ScanWrite.smallit(filename, "/df");
+	} catch (IOException exc ) {
+	    System.out.println("Something.");
+	}
+	
+	/*6. Section 5.1.6, “The finally Clause,” on p. 181 has an example of
+	  a broken try statement with catch and finally clauses. Fix the code
+	  with (a) catching the exception in the finally clause, (b) a
+	  try/catch statement containing a try/finally statement, and (c) a 
+	  try-with-resources statement with a catch clause.*/
 
-
-
+	/*
+	BufferedReader in = null;
+	try {
+	    in = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+	    Read from in
+		} catch (IOException ex) {
+	    System.err.println(“Caught IOException: ” + ex.getMessage());
+	} finally {
+	    if (in != null) {
+		in.close(); // Caution—might throw an exception
+	    }
+	}
+	*/
+	
     }
+
+    
     
 }
 
